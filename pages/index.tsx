@@ -4,7 +4,7 @@ import ChipInput from "@/components/ChipInput";
 import { useState } from "react";
 
 export default function Home() {
- const list: { name: string; img: string; email: string }[] = [
+ const list = [
    {
      name: "John Smith",
      img: "/men1.jpg",

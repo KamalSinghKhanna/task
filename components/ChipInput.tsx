@@ -71,6 +71,7 @@ const ChipInput: React.FC<ChipInputProps> = ({ items }) => {
     setChips((prevChips) =>
       prevChips.filter((chip) => chip.email !== chipEmail)
     );
+    setShowList(false);
   };
 
   return (
