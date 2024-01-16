@@ -9,10 +9,10 @@ interface Chip {
 
 interface ChipInputProps {
   items: Chip[];
-  setItems: (items: Chip[]) => void;
 }
 
-const ChipInput: React.FC<ChipInputProps> = ({ items, setItems }) => {
+const ChipInput: React.FC<ChipInputProps> = ({ items }) => {
+  const [data, setData] = useState<Chip[]>(items);
   const [inputValue, setInputValue] = useState("");
   const [selectedItem, setSelectedItem] = useState<Chip | null>(null);
   const [chips, setChips] = useState<Chip[]>([]);
@@ -28,8 +28,8 @@ const ChipInput: React.FC<ChipInputProps> = ({ items, setItems }) => {
          } else {
            // If a chip is already selected, remove it and add it back to items if not already present
            removeChip(selectedItem.email);
-           if (!items.find((item) => item.email === selectedItem.email)) {
-             setItems((prevItems: Chip[]) => [...prevItems, selectedItem]);
+           if (!data.find((item) => item.email === selectedItem.email)) {
+             setData((prevItems: Chip[]) => [...prevItems, selectedItem]);
            }
            setSelectedItem(null);
            setShowList(false)
@@ -42,7 +42,7 @@ const ChipInput: React.FC<ChipInputProps> = ({ items, setItems }) => {
     const value = event.target.value;
     setInputValue(value);
 
-    const filteredItems = items.filter((item) =>
+    const filteredItems = data.filter((item) =>
       item.name.toLowerCase().includes(value.toLowerCase())
     );
 
@@ -50,14 +50,14 @@ const ChipInput: React.FC<ChipInputProps> = ({ items, setItems }) => {
   };
 
   const handleItemClick = (item: Chip) => {
-    const filteredItems = items.filter((data) => data.email !== item.email);
-    setItems(filteredItems);
+    const filteredItems = data.filter((data) => data.email !== item.email);
+    setData(filteredItems);
     addChip(item);
   };
 
   const handleChipRemove = (chip: Chip) => {
     removeChip(chip.email);
-    setItems((prevItems: Chip[]) => [...prevItems, chip]);
+    setData((prevItems: Chip[]) => [...prevItems, chip]);
     setSelectedItem(null);
   };
 
@@ -118,7 +118,7 @@ const ChipInput: React.FC<ChipInputProps> = ({ items, setItems }) => {
               placeholder="Add new users..."
             />
           </div>
-          {showList && items?.length > 0 && (
+          {showList && data?.length > 0 && (
             <div
               className="mt-2 px-4 py-2 rounded-lg flex flex-col gap-3 absolute z-50 bg-white top-[65%] max-h-[70vh] overflow-y-scroll"
               style={{
@@ -126,7 +126,7 @@ const ChipInput: React.FC<ChipInputProps> = ({ items, setItems }) => {
                   "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
               }}
             >
-              {items?.filter((item) =>
+              {data?.filter((item) =>
                   item.name.toLowerCase().includes(inputValue.toLowerCase())
                 )
                 .map((item) => (

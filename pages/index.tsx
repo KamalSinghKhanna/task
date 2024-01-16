@@ -92,13 +92,11 @@ export default function Home() {
    },
  ];
 
-  const [items, setItems] =
-    useState<{ name: string; img: string; email: string }[]>(list);
 
   return (
     <div className="mx-4 sm:mx-20 mt-10 flex flex-col gap-10">
       <h1 className="text-blue-500 text-center font-bold text-xl sm:text-3xl">Pick Users</h1>
-      <ChipInput items={items} setItems={setItems} />
+      <ChipInput items={list}  />
     </div>
   );
 }
